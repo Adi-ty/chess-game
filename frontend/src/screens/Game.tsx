@@ -5,8 +5,10 @@ import { Chess } from "chess.js";
 
 export const Game = () => {
   const socket = useSocket();
+
   const [chess, setChess] = useState(new Chess());
   const [board, setBoard] = useState(chess.board());
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     if (!socket) return;
@@ -19,6 +21,7 @@ export const Game = () => {
         case "game_start":
           chess.reset();
           setBoard(chess.board());
+          setStarted(true);
           console.log("Game started, color:", message.color);
           break;
         case "move":
@@ -40,7 +43,7 @@ export const Game = () => {
           break;
       }
     };
-  }, [socket, chess]);
+  }, [socket]);
 
   if (!socket)
     return (
@@ -55,18 +58,20 @@ export const Game = () => {
             <ChessBoard socket={socket} board={board} />
           </div>
           <div className="md:col-span-2 flex items-center justify-center">
-            <button
-              className="bg-green-400 text-white font-bold px-4 py-4 rounded-lg"
-              onClick={() => {
-                socket.send(
-                  JSON.stringify({
-                    type: "init_game",
-                  })
-                );
-              }}
-            >
-              Play
-            </button>
+            {!started && (
+              <button
+                className="bg-green-400 text-white font-bold px-4 py-4 rounded-lg"
+                onClick={() => {
+                  socket.send(
+                    JSON.stringify({
+                      type: "init_game",
+                    })
+                  );
+                }}
+              >
+                Play
+              </button>
+            )}
           </div>
         </div>
       </div>

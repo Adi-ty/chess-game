@@ -52,10 +52,14 @@ export const ChessBoard = ({
                   }}
                   key={j}
                   className={`w-16 h-16 ${
-                    (i + j) % 2 == 0 ? "bg-green-500" : "bg-slate-100"
+                    (i + j) % 2 == 0 ? "bg-green-400" : "bg-slate-400"
                   }`}
                 >
-                  <div className="w-full h-full flex justify-center items-center">
+                  <div
+                    className={`w-full h-full flex justify-center items-center font-bold ${
+                      square?.color === "b" ? "text-green-950" : "text-white"
+                    }`}
+                  >
                     {square ? square.type : ""}
                   </div>
                 </div>
