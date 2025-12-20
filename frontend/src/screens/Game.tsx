@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChessBoard } from "../components/ChessBoard";
 import { useSocket } from "../hooks/useSocket";
 import { Chess } from "chess.js";
 
 export const Game = () => {
-  const socket = useSocket();
+  const { socket } = useSocket();
 
-  const [chess, setChess] = useState(new Chess());
-  const [board, setBoard] = useState(chess.board());
+  const chessRef = useRef(new Chess());
+  const [board, setBoard] = useState(chessRef.current.board());
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
@@ -19,14 +19,14 @@ export const Game = () => {
 
       switch (message.type) {
         case "game_start":
-          chess.reset();
-          setBoard(chess.board());
+          chessRef.current.reset();
+          setBoard(chessRef.current.board());
           setStarted(true);
           console.log("Game started, color:", message.color);
           break;
         case "move":
-          chess.move(message.move);
-          setBoard(chess.board());
+          chessRef.current.move(message.move);
+          setBoard(chessRef.current.board());
           console.log("Move made:", message.move);
           break;
         case "game_over":
