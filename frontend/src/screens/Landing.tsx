@@ -6,36 +6,42 @@ export const Landing = () => {
   const { isAuthenticated, login, user, logout } = useAuth();
 
   return (
-    <div>
-      <div className="mt-2">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <img src={"chess.jpg"} alt="chess board" />
-          <div className="flex flex-col items-center gap-2 justify-center">
-            <h1 className="text-4xl font-bold">Play Chess Online</h1>
+    <>
+      <div className="mt-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 items-center">
+          <img
+            src={"chess.jpg"}
+            alt="chess board"
+            className="rounded-lg shadow-lg"
+          />
+          <div className="flex flex-col items-center gap-6 justify-center text-center">
+            <h1 className="text-5xl font-bold text-gray-800">
+              Play Chess Online
+            </h1>
             {isAuthenticated ? (
-              <div className="flex flex-col items-center gap-4">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-col items-center gap-6">
+                <div className="flex items-center gap-4">
                   {user?.avatar_url && (
                     <img
                       src={user.avatar_url}
                       alt="avatar"
-                      className="w-10 h-10 rounded-full"
+                      className="w-12 h-12 rounded-full border-2 border-green-500"
                     />
                   )}
-                  <span className="text-lg">
+                  <span className="text-xl">
                     Welcome, {user?.display_name}!
                   </span>
                 </div>
                 <div className="flex gap-4">
                   <button
                     onClick={() => navigate("/game")}
-                    className="bg-green-400 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
                   >
                     Play Game
                   </button>
                   <button
                     onClick={logout}
-                    className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                    className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
                   >
                     Logout
                   </button>
@@ -44,7 +50,7 @@ export const Landing = () => {
             ) : (
               <button
                 onClick={login}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded flex items-center gap-2"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg flex items-center gap-3 text-lg"
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path
@@ -70,6 +76,6 @@ export const Landing = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
