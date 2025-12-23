@@ -7,6 +7,18 @@ const getSquareNotation = (row: number, col: number): Square => {
   return `${file}${rank}` as Square;
 };
 
+const getPieceSymbol = (type: PieceSymbol, color: Color): string => {
+  const symbols: Record<PieceSymbol, { w: string; b: string }> = {
+    k: { w: "♔", b: "♚" }, // King
+    q: { w: "♕", b: "♛" }, // Queen
+    r: { w: "♖", b: "♜" }, // Rook
+    b: { w: "♗", b: "♝" }, // Bishop
+    n: { w: "♘", b: "♞" }, // Knight
+    p: { w: "♙", b: "♟" }, // Pawn
+  };
+  return symbols[type][color];
+};
+
 export const ChessBoard = ({
   socket,
   board,
@@ -60,7 +72,13 @@ export const ChessBoard = ({
                       square?.color === "b" ? "text-green-950" : "text-white"
                     }`}
                   >
-                    {square ? square.type : ""}
+                    {square ? (
+                      <span className="text-2xl font-bold">
+                        {getPieceSymbol(square.type, square.color)}
+                      </span>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               );
