@@ -29,7 +29,21 @@ export const Game = () => {
           setBoard(chessRef.current.board());
           console.log("Move made:", message.move);
           break;
+        case "board_replay":
+          try {
+            chessRef.current.reset(); // Start fresh
+            for (const movePayload of message.moves) {
+              chessRef.current.move(movePayload.move); // Apply each move
+            }
+            setBoard(chessRef.current.board());
+            setStarted(true);
+            console.log("Board replayed with", message.moves.length, "moves");
+          } catch (error) {
+            console.error("Error replaying board:", error);
+          }
+          break;
         case "game_over":
+          setStarted(false);
           console.log("Game over:", message.outcome, message.method);
           break;
         case "waiting":
