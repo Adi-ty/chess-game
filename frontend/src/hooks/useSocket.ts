@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
 
+const wsUrl = import.meta.env.VITE_WS_URL || "ws://localhost:8080/ws";
+
 export const useSocket = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [connectionError, setConnectionError] = useState<string | null>(null);
@@ -11,7 +13,7 @@ export const useSocket = () => {
       return;
     }
 
-    const ws = new WebSocket(`ws://localhost:8080/ws?token=${token}`);
+    const ws = new WebSocket(`${wsUrl}?token=${token}`);
 
     ws.onopen = () => {
       console.log("Connected");
